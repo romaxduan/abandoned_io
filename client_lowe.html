@@ -2,26 +2,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Module client</title>
+<title>Module client_lowe</title>
 <link rel="stylesheet" type="text/css" href="stylesheet.css" title="EDoc">
 </head>
 <body bgcolor="white">
 <div class="navbar"><a name="#navbar_top"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
 <hr>
 
-<h1>Module client</h1>
-<ul class="index"><li><a href="#description">Description</a></li><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>This is the client module for Needham-Schroeder Protocol.
+<h1>Module client_lowe</h1>
+<ul class="index"><li><a href="#description">Description</a></li><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>This is the client module for Needham-Schroeder-Lowe Protocol.
 
 
-<h2><a name="description">Description</a></h2>This is the client module for Needham-Schroeder Protocol.
-  Client module is the one which simulates Alice and Bob as clients in a communication. It will receive start signal from the driver process and start a negotiation with the Target specified by the driver.
+<h2><a name="description">Description</a></h2>This is the client module for Needham-Schroeder-Lowe Protocol.
+  Client module is the one which simulates Alice and Bob as clients in a communication. It will receive start signal from the driver process and start a negotiation with the Target specified by the driver. This is the version that client will send itself in the 6th message so that it can prevent man-in-the-middle attack.
 <h2><a name="index">Function Index</a></h2>
 <table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#decrypt-2">decrypt/2</a></td><td>Decrypt the message from other clients.</td></tr>
 <tr><td valign="top"><a href="#decrypt_server-2">decrypt_server/2</a></td><td>Decrypt the message from server.</td></tr>
 <tr><td valign="top"><a href="#encrypt-2">encrypt/2</a></td><td>Encrypt the message using specified key.</td></tr>
 <tr><td valign="top"><a href="#gen_nonce-0">gen_nonce/0</a></td><td>Generate a random nonce.</td></tr>
 <tr><td valign="top"><a href="#loop-0">loop/0</a></td><td>Loop to keep receiving messages.</td></tr>
-<tr><td valign="top"><a href="#start-0">start/0</a></td><td>Spawn a client process and return the pid.</td></tr>
+<tr><td valign="top"><a href="#start-0">start/0</a></td><td>Spawn a client_lowe process and return the pid.</td></tr>
 </table>
 
 <h2><a name="functions">Function Details</a></h2>
@@ -62,9 +62,10 @@
  			Receive the encrypted session request and get the Public Key of Alice.
  		{replyPk_2, Server, Msg}-&gt;
  			Only the one which is Bob will receive this, it will get the Kpa from server.
- 			Also send the nonce as a part of the message.
+ 			Also send the nonce as a part of the message. To prevent man-in-the-middle attack,
+ 			it will add itself into the encrypted message.
  		{nonces, Msg}-&gt;
- 			Alice receives Na and Nb, then reply Bob with a Nb encrypted using Kpb.
+ 			Alice receives Na, Nb and B, then reply Bob with a Nb encrypted using Kpb.
  		{verified, Msg}-&gt;
  			Bob receives the Nb from Alice, and checks whether it's the correct one.
  			If yes then session is created.</pre></p>
@@ -72,7 +73,7 @@
 <h3 class="function"><a name="start-0">start/0</a></h3>
 <div class="spec">
 <p><tt>start() -&gt; pid()</tt><br></p>
-</div><p>Spawn a client process and return the pid.</p>
+</div><p>Spawn a client_lowe process and return the pid.</p>
 <hr>
 
 <div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
